@@ -1,15 +1,14 @@
 # Goalpost plugin for AI assistants
 
-> **Status: pre-release.** This directory is the source of truth that
-> will mirror to [`movegoalpost/goalpost-plugin`](https://github.com/movegoalpost/goalpost-plugin).
-> Until that public repo exists, the marketplace install paths below
-> won't resolve — use the `--plugin-dir` form against a local checkout
-> to test.
-
 Connect [Goalpost](https://www.movegoalpost.com) — versioned
 specification documents — to your AI assistant. Once installed, the
 assistant can read your projects, draft and revise change batches, and
 manage project-level team access on your behalf.
+
+The published copy of this plugin lives at
+[`movegoalpost/goalpost-plugin`](https://github.com/movegoalpost/goalpost-plugin);
+changes made in the Goalpost monorepo reach it through
+`npm run plugin:mirror`.
 
 Requires a **Pro-tier Goalpost workspace**. Free-tier workspaces
 don't appear in the consent screen's workspace picker, so a user with
@@ -42,7 +41,7 @@ the Goalpost webapp:
 
 ### Claude Code
 
-Once the public repo is published, install via the marketplace:
+Install via the marketplace:
 
 ```bash
 claude plugin marketplace add movegoalpost/goalpost-plugin
@@ -69,7 +68,7 @@ call Goalpost tools for that workspace.
 
 ### Codex CLI / desktop
 
-Once the public repo is published, install via the marketplace:
+Install via the marketplace:
 
 ```bash
 codex plugin marketplace add movegoalpost/goalpost-plugin
@@ -178,14 +177,6 @@ plugin on the client side alone does not revoke anything server-side.
 
 ## Open questions / TODOs
 
-- **Mirror to `movegoalpost/goalpost-plugin`.** The `marketplace.json`
-  is already in place under `.claude-plugin/` (Codex reads that path
-  for legacy compatibility); both `claude plugin marketplace add`
-  and `codex plugin marketplace add` will resolve once the public
-  repo exists. `npm run plugin:mirror -- --push` from the Goalpost
-  repo publishes this directory into it as a snapshot commit (see
-  `devops/README.md`); the public repo carries none of the private
-  repo's history.
 - **Drop the `mcp-remote` shim when Codex grows OAuth-on-first-use.**
   Codex supports remote streamable-HTTP MCP today but requires an
   explicit `codex mcp login <name>` to complete OAuth — no RFC 9728
