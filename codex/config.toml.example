@@ -1,0 +1,15 @@
+# Goalpost — Codex CLI config snippet
+#
+# Add this to ~/.codex/config.toml to connect Codex to Goalpost via the
+# `mcp-remote` shim. The shim runs locally and bridges Codex's stdio
+# transport to Goalpost's remote HTTP MCP endpoint, handling the OAuth
+# 2.1 flow on first use.
+#
+# This is the working install path today. Once Codex ships native
+# remote-MCP-with-OAuth support, the entry below can be replaced with
+# a direct streamable-http entry — see the plugin README for the
+# forward-looking shape.
+
+[mcp_servers.goalpost]
+command = "npx"
+args = ["-y", "mcp-remote", "https://api.movegoalpost.com/api/mcp"]

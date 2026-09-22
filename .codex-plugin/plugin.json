@@ -1,0 +1,27 @@
+{
+  "name": "goalpost",
+  "version": "0.1.0",
+  "description": "Read projects, author draft change batches, and manage project team access in Goalpost — versioned specification documents from inside Codex.",
+  "author": {
+    "name": "On A Hill Co",
+    "email": "info@onahill.co",
+    "url": "https://www.movegoalpost.com"
+  },
+  "homepage": "https://www.movegoalpost.com/docs/ai-integration",
+  "repository": "https://github.com/movegoalpost/goalpost-plugin",
+  "license": "MIT",
+  "keywords": ["goalpost", "specifications", "change-batches", "mcp"],
+  "skills": "./skills/",
+  "mcpServers": "./codex/mcp.json",
+  "interface": {
+    "displayName": "Goalpost",
+    "shortDescription": "Versioned specification documents inside your AI assistant.",
+    "longDescription": "Connect Goalpost — versioned specification documents — to Codex. The assistant can list projects, read the latest approved specification, draft and revise change batches, submit drafts for approval, and manage project-level team access. Approving and rejecting votes, configuring approval rules, and team membership are out of scope and must be done in the Goalpost webapp.",
+    "developerName": "On A Hill Co",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://www.movegoalpost.com",
+    "privacyPolicyURL": "https://www.movegoalpost.com/privacy",
+    "termsOfServiceURL": "https://www.movegoalpost.com/terms"
+  }
+}

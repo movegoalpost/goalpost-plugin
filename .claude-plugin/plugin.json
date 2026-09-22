@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "goalpost",
+  "displayName": "Goalpost",
+  "version": "0.1.0",
+  "description": "Read projects, author draft change batches, and manage project team access in Goalpost — versioned specification documents from inside your AI assistant.",
+  "homepage": "https://www.movegoalpost.com/docs/ai-integration",
+  "repository": "https://github.com/movegoalpost/goalpost-plugin",
+  "license": "MIT",
+  "author": {
+    "name": "On A Hill Co",
+    "email": "info@onahill.co"
+  },
+  "keywords": ["goalpost", "specifications", "change-batches", "mcp"]
+}

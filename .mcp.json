@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "goalpost": {
+      "type": "http",
+      "url": "https://api.movegoalpost.com/api/mcp"
+    }
+  }
+}
