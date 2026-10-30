@@ -1,7 +1,7 @@
 # Goalpost plugin for AI assistants
 
-Connect [Goalpost](https://www.movegoalpost.com) — versioned
-specification documents — to your AI assistant. Once installed, the
+Connect [Goalpost](https://www.movegoalpost.com) — shared, versioned
+project documents for people and agents — to your AI assistant. Once installed, the
 assistant can read your projects, draft and revise change batches, and
 manage project-level team access on your behalf.
 
@@ -16,7 +16,7 @@ no Pro workspace can't complete the connection.
 
 ## What you (or your assistant) can do
 
-- List projects, read the latest approved specification, and browse
+- List projects, read the latest approved version of a project, and browse
   change batch history.
 - Create a new project.
 - Create draft change batches, iterate on them, and submit them into the
@@ -129,8 +129,9 @@ standard RFC 9728 chain from the endpoint.
 ## What's in this plugin
 
 - **MCP server** — points at `https://api.movegoalpost.com/api/mcp`.
-  Twenty-four tools mirroring Goalpost's command layer
-  (`list_projects`, `create_change_batch`, `assign_team_to_project`, …).
+  Tools mirroring Goalpost's command layer (`list_projects`,
+  `create_change_batch`, `submit_for_approval`, …), plus team and
+  approval rule management for workspace owners.
   Claude Code consumes it as a native streamable-HTTP server; Codex
   consumes the same server through an `npx mcp-remote` stdio shim.
 - **Skill** — `skills/goalpost/SKILL.md`, loaded by both Claude Code

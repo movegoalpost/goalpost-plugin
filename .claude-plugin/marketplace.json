@@ -4,7 +4,7 @@
     "name": "On A Hill Co",
     "email": "info@onahill.co"
   },
-  "description": "Goalpost plugin for AI assistants — versioned specification documents through your assistant.",
+  "description": "Goalpost plugin for AI assistants — shared, versioned project documents for people and agents, through your assistant.",
   "interface": {
     "displayName": "Goalpost"
   },

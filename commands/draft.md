@@ -28,7 +28,9 @@ change batch. Walk them through it without rushing to save:
    edits to baseline details, `MOVE_DETAIL` for relocations,
    `ADD_DETAIL` for new content, `REMOVE_DETAIL` only when the user
    has explicitly asked for a deletion. Mint fresh `detail_<uuid>`
-   ids for ADD/REPLACE.
+   ids for ADD/REPLACE. Keep outline numbering ("1.", "3.2") out of
+   section titles and text — the tree and `order_key` carry the
+   order (see the goalpost skill).
 
 4. **Ask the user to confirm or revise.** Wait for their go-ahead on
    the operations list before saving. If they want changes, revise
@@ -36,7 +38,7 @@ change batch. Walk them through it without rushing to save:
 
 5. **Save the draft.** Call `create_change_batch` with the agreed
    operations array. Surface the returned `webappUrl` so the user
-   can review the rendered specification in the webapp. Mention that
+   can review the rendered project in the webapp. Mention that
    the draft is editable via `update_change_batch` and gets sent for
    review via `submit_for_approval`.
 
