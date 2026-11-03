@@ -1,7 +1,7 @@
 {
   "name": "goalpost",
-  "version": "0.2.0",
-  "description": "Read projects, author draft change batches, and manage project team access in Goalpost — shared, versioned project documents for people and agents, from inside Codex.",
+  "version": "0.3.0",
+  "description": "Read projects, author draft change batches, and manage project team access in Goalpost — shared, versioned project documents for people and agents, from inside ChatGPT.",
   "author": {
     "name": "On A Hill Co",
     "email": "info@onahill.co",
@@ -12,14 +12,18 @@
   "license": "MIT",
   "keywords": ["goalpost", "notes", "change-batches", "mcp", "specifications"],
   "skills": "./skills/",
-  "mcpServers": "./codex/mcp.json",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Goalpost",
     "shortDescription": "Shared, versioned project documents for people and agents, inside your AI assistant.",
-    "longDescription": "Connect Goalpost — shared, versioned project documents for people and agents — to Codex. The assistant can list projects, read the latest approved version of a project, draft and revise change batches, submit drafts for approval, and manage project-level team access. Approving and rejecting votes, configuring approval rules, and team membership are out of scope and must be done in the Goalpost webapp.",
+    "longDescription": "Connect Goalpost — shared, versioned project documents for people and agents — to ChatGPT. The assistant can list projects, read the latest approved version of a project, draft and revise change batches, submit drafts for approval, manage labels, and, for workspace owners, manage teams, their members and project access, and approval rules. Approval votes, workspace membership, settings, and billing stay in the Goalpost webapp.",
     "developerName": "On A Hill Co",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],
+    "logo": "./assets/logo.png",
+    "composerIcon": "./assets/composer-icon.svg",
+    "brandColor": "#0055A3",
+    "brandColorDark": "#4DACF6",
     "websiteURL": "https://www.movegoalpost.com",
     "privacyPolicyURL": "https://www.movegoalpost.com/privacy",
     "termsOfServiceURL": "https://www.movegoalpost.com/terms"

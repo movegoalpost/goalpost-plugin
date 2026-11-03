@@ -1,6 +1,0 @@
-{
-  "goalpost": {
-    "command": "npx",
-    "args": ["-y", "mcp-remote", "https://api.movegoalpost.com/api/mcp"]
-  }
-}

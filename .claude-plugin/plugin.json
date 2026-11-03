@@ -2,10 +2,11 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "goalpost",
   "displayName": "Goalpost",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Read projects, author draft change batches, and manage project team access in Goalpost — shared, versioned project documents for people and agents, from inside your AI assistant.",
   "homepage": "https://www.movegoalpost.com/docs/ai-integration",
   "repository": "https://github.com/movegoalpost/goalpost-plugin",
+  "privacyPolicyUrl": "https://www.movegoalpost.com/privacy",
   "license": "MIT",
   "author": {
     "name": "On A Hill Co",

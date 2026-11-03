@@ -153,11 +153,11 @@ the operation that preserves more of the existing tree:
 
 ## Let the tree carry the structure
 
-The tree *is* the outline. Sibling order comes from `order_key`, and
+The tree *is* the document. Sibling order comes from `order_key`, and
 the webapp renders nesting and order on its own. Don't duplicate that
 structure in the content:
 
-- **No outline numbering in titles or text.** Write `Offerings`, not
+- **No section numbering in titles or text.** Write `Offerings`, not
   `3. Offerings`; `Storage Services`, not `3.1 Storage Services`; the
   same goes for `A)`, `(ii)`, `Step 4:` and similar prefixes. Baked-in
   numbers go stale the moment a detail is inserted, moved, or removed,

@@ -28,7 +28,7 @@ change batch. Walk them through it without rushing to save:
    edits to baseline details, `MOVE_DETAIL` for relocations,
    `ADD_DETAIL` for new content, `REMOVE_DETAIL` only when the user
    has explicitly asked for a deletion. Mint fresh `detail_<uuid>`
-   ids for ADD/REPLACE. Keep outline numbering ("1.", "3.2") out of
+   ids for ADD/REPLACE. Keep section numbering ("1.", "3.2") out of
    section titles and text — the tree and `order_key` carry the
    order (see the goalpost skill).
 
