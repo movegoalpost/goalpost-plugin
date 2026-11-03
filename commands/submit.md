@@ -9,8 +9,8 @@ Don't fire `submit_for_approval` immediately — confirm the draft is
 in the shape they actually want first.
 
 1. **Locate the draft.** If the user named one, call `get_change_batch`
-   directly. Otherwise call `list_change_batches` for the project (ask
-   which project if it isn't clear) and offer the most recent `draft`
+   directly. Otherwise call `list_change_batches` for the document (ask
+   which document if it isn't clear) and offer the most recent `draft`
    as the candidate.
 
 2. **Verify it's still a draft.** If the change batch's status is
@@ -18,7 +18,7 @@ in the shape they actually want first.
    — `submit_for_approval` is only valid for drafts.
 
 3. **Check the parent is current.** Call
-   `get_latest_approved_change_batch` for the project and compare its id
+   `get_latest_approved_change_batch` for the document and compare its id
    to the draft's `parentId`. If they differ (or `needsRebase` is set
    on the draft), the baseline has moved since the draft was written:
    - Explain that submitting now will queue the draft against a stale
@@ -29,7 +29,7 @@ in the shape they actually want first.
    - Wait for the user's call before continuing.
 
 4. **Give the user a one-line summary of what they're about to
-   submit.** "N operations across <project name> — adding X,
+   submit.** "N operations across <document name> — adding X,
    replacing Y, moving Z." If the change batch has a name/description,
    include those. Ask for explicit confirmation.
 

@@ -13,7 +13,7 @@ for reviewers, or someone else's pending one they're voting on.
    one, call `view_change_batch` with its id: it opens the change
    batch beside the conversation where the host renders it, and returns
    the same data `get_change_batch` would. Otherwise call
-   `list_change_batches` for the project (ask them which project if it
+   `list_change_batches` for the document (ask them which document if it
    isn't clear), offer the most recent `draft` or `pending_approval` as
    the candidate — or the one they ask for — and open that.
 
@@ -22,7 +22,7 @@ for reviewers, or someone else's pending one they're voting on.
    approved baseline has moved since the draft was written and
    reconciling should happen before approval. Trust the field rather
    than re-deriving it. To inspect the new baseline, call
-   `get_latest_approved_change_batch` for the project.
+   `get_latest_approved_change_batch` for the document.
 
 3. **Summarize per operation.** For each operation in the change batch,
    write one line in plain language:
@@ -44,7 +44,7 @@ for reviewers, or someone else's pending one they're voting on.
 
 5. **Surface the webapp link.** Include the `webappUrl` from the
    opened change batch so the user can verify against the rendered
-   project before approving (or asking the author for
+   document before approving (or asking the author for
    changes). Remember: approving/rejecting/withdrawing votes are not
    available through this connection — direct the user to the webapp
    if they want to cast a vote.

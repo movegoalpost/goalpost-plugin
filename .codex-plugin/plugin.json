@@ -1,7 +1,7 @@
 {
   "name": "goalpost",
-  "version": "0.3.0",
-  "description": "Read projects, author draft change batches, and manage project team access in Goalpost — shared, versioned project documents for people and agents, from inside ChatGPT.",
+  "version": "0.4.0",
+  "description": "Read documents, author draft change batches, and manage document team access in Goalpost — shared, versioned documents for people and agents, from inside ChatGPT.",
   "author": {
     "name": "On A Hill Co",
     "email": "info@onahill.co",
@@ -15,8 +15,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Goalpost",
-    "shortDescription": "Shared, versioned project documents for people and agents, inside your AI assistant.",
-    "longDescription": "Connect Goalpost — shared, versioned project documents for people and agents — to ChatGPT. The assistant can list projects, read the latest approved version of a project, draft and revise change batches, submit drafts for approval, manage labels, and, for workspace owners, manage teams, their members and project access, and approval rules. Approval votes, workspace membership, settings, and billing stay in the Goalpost webapp.",
+    "shortDescription": "Shared, versioned documents for people and agents, inside your AI assistant.",
+    "longDescription": "Connect Goalpost — shared, versioned documents for people and agents — to ChatGPT. The assistant can list documents, read the latest approved version of a document, draft and revise change batches, submit drafts for approval, manage labels, and, for workspace owners, manage teams, their members and document access, and approval rules. Approval votes, workspace membership, settings, and billing stay in the Goalpost webapp.",
     "developerName": "On A Hill Co",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],

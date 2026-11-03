@@ -1,5 +1,5 @@
 ---
-description: Draft a new Goalpost change batch from the current conversation. Picks a project, reads its latest approved state, and proposes an operations array for review before saving.
+description: Draft a new Goalpost change batch from the current conversation. Picks a document, reads its latest approved state, and proposes an operations array for review before saving.
 ---
 
 # Goalpost — draft a change batch
@@ -7,17 +7,17 @@ description: Draft a new Goalpost change batch from the current conversation. Pi
 The user wants to turn the current conversation into a Goalpost
 change batch. Walk them through it without rushing to save:
 
-1. **Confirm the workspace and project.** Call
+1. **Confirm the workspace and document.** Call
    `get_current_workspace` once so you can name the workspace in your
-   reply. Then `list_projects` and ask the user to pick the project
+   reply. Then `list_documents` and ask the user to pick the document
    this draft belongs in — unless the conversation has already named
-   one unambiguously. If the user wants a brand-new project, call
-   `create_project` first and surface its `webappUrl`.
+   one unambiguously. If the user wants a brand-new document, call
+   `create_document` first and surface its `webappUrl`.
 
 2. **Read the baseline.** Call `get_latest_approved_change_batch` for the
-   chosen project. If it returns a change batch, that's your reference
+   chosen document. If it returns a change batch, that's your reference
    for any existing details you'll edit or move. If it returns
-   `null`, this is the project's first change batch — every detail will
+   `null`, this is the document's first change batch — every detail will
    be an `ADD_DETAIL`.
 
 3. **Propose the operations array first, don't save it yet.** Before
@@ -38,7 +38,7 @@ change batch. Walk them through it without rushing to save:
 
 5. **Save the draft.** Call `create_change_batch` with the agreed
    operations array. Surface the returned `webappUrl` so the user
-   can review the rendered project in the webapp. Mention that
+   can review the rendered document in the webapp. Mention that
    the draft is editable via `update_change_batch` and gets sent for
    review via `submit_for_approval`.
 

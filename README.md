@@ -1,9 +1,9 @@
 # Goalpost plugin for AI assistants
 
 Connect [Goalpost](https://www.movegoalpost.com) — shared, versioned
-project documents for people and agents — to your AI assistant. Once installed, the
-assistant can read your projects, draft and revise change batches, and
-manage project-level team access on your behalf.
+documents for people and agents — to your AI assistant. Once installed, the
+assistant can read your documents, draft and revise change batches, and
+manage document-level team access on your behalf.
 
 The published copy of this plugin lives at
 [`movegoalpost/goalpost-plugin`](https://github.com/movegoalpost/goalpost-plugin);
@@ -14,15 +14,15 @@ Works with every Goalpost workspace, Free or Pro.
 
 ## What you (or your assistant) can do
 
-- List projects, read the latest approved version of a project, and browse
+- List documents, read the latest approved version of a document, and browse
   change batch history.
-- Create a new project.
+- Create a new document.
 - Create draft change batches, iterate on them, split, merge, or copy
   them, and submit them into the approval queue.
 - Create and edit labels.
-- List teams in the workspace and see which teams can access a project.
+- List teams in the workspace and see which teams can access a document.
 - As a workspace owner: create, rename, archive, and delete teams,
-  add and remove their members, assign them to projects, and create
+  add and remove their members, assign them to documents, and create
   and manage approval rules.
 
 ## What this connection cannot do
@@ -34,8 +34,8 @@ the Goalpost webapp:
   *can* submit a draft for approval, but it can't cast votes on it.
 - Team and approval rule changes when you are not a workspace owner.
 - Invite people to the workspace or remove them from it.
-- Delete projects or change batches.
-- Upload new images (existing project assets can be referenced).
+- Delete documents or change batches.
+- Upload new images (existing document assets can be referenced).
 - Anything under workspace settings or billing.
 - Authentication or token management.
 
@@ -141,14 +141,14 @@ that only speaks stdio, see the "Other assistants" section of
 ## What's in this plugin
 
 - **MCP server** — points at `https://api.movegoalpost.com/api/mcp`.
-  Tools mirroring Goalpost's command layer (`list_projects`,
+  Tools mirroring Goalpost's command layer (`list_documents`,
   `create_change_batch`, `submit_for_approval`, …), plus team and
   approval rule management for workspace owners.
   Claude Code, Claude Desktop, and ChatGPT / Codex all consume it as
   a native streamable-HTTP server from the one `.mcp.json`.
 - **Skill** — `skills/goalpost/SKILL.md`, loaded by Claude Code,
   Claude Desktop, and ChatGPT / Codex. Teaches the
-  workspace/project/change-batch/detail mental model, the detail-ID minting and operation-type conventions,
+  workspace/document/change-batch/detail mental model, the detail-ID minting and operation-type conventions,
   in-place draft revision, and the habit of surfacing `webappUrl`
   back to the user.
 - **Slash commands** — `/goalpost:draft`, `/goalpost:review`,

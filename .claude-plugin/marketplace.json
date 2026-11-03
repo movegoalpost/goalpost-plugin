@@ -4,7 +4,7 @@
     "name": "On A Hill Co",
     "email": "info@onahill.co"
   },
-  "description": "Goalpost plugin for AI assistants — shared, versioned project documents for people and agents, through your assistant.",
+  "description": "Goalpost plugin for AI assistants — shared, versioned documents for people and agents, through your assistant.",
   "interface": {
     "displayName": "Goalpost"
   },
@@ -15,7 +15,7 @@
         "source": "url",
         "url": "https://github.com/movegoalpost/goalpost-plugin.git"
       },
-      "description": "Read projects, author draft change batches, and manage project team access in Goalpost.",
+      "description": "Read documents, author draft change batches, and manage document team access in Goalpost.",
       "category": "Productivity",
       "policy": {
         "installation": "AVAILABLE",

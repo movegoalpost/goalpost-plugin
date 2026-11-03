@@ -1,10 +1,10 @@
 ---
-description: Use Goalpost — shared, versioned project documents for people and agents — well when reading projects or authoring/revising change batches through the `goalpost` MCP server.
+description: Use Goalpost — shared, versioned documents for people and agents — well when reading documents or authoring/revising change batches through the `goalpost` MCP server.
 ---
 
 # Working in Goalpost
 
-Goalpost keeps shared, versioned project documents for people and
+Goalpost keeps shared, versioned documents for people and
 agents. Each MCP connection is
 pinned to a single **workspace**; every tool call reads and writes
 inside that workspace. The workspace is implicit and is never passed
@@ -12,21 +12,21 @@ as an argument.
 
 ## Mental model
 
-- **Project** — a named, structured document (a product spec, a meal
+- **Document** — a named, structured body of content (a product spec, a meal
   plan, a garden layout, a running set of notes) living inside the
   workspace. Underneath, it is a tree of details whose nodes come in a
   few types: `SECTION`, `TEXT`, `LINK`, `IMAGE`, and `REF`, described
   below.
-- **ChangeBatch** — a set of operations that edit a project's
+- **ChangeBatch** — a set of operations that edit a document's
   contents, anchored to a parent change batch. When a change batch is
-  saved, Goalpost regenerates the resulting project state by applying
+  saved, Goalpost regenerates the resulting document state by applying
   its operations on top of the parent's state.
   - Lifecycle: `draft` (freely editable) → `pending_approval`
     (awaiting reviewers) → `approved` (permanent, sequentially
     numbered, immutable).
   - Approved change batches form a linear chain; exactly one is "latest"
-    for a project at a time.
-- **Detail** — a node in a project's hierarchical content tree,
+    for a document at a time.
+- **Detail** — a node in a document's hierarchical content tree,
   identified by `detail_<uuid>`. Details have a
   `parent_detail_id`, an `order_key` within their siblings, a `type`,
   and `content` whose shape depends on the type:
@@ -34,25 +34,25 @@ as an argument.
     written down; `content` is `{ "text": ... }`.
   - `SECTION` — a named grouping, like a folder; `content` is
     `{ "title": ... }`.
-  - `LINK` — an http(s) link to something outside the project;
+  - `LINK` — an http(s) link to something outside the document;
     `content` is `{ "url": ..., "label"?: ... }`. Placed like `TEXT`.
-  - `REF` — a reference to another detail in the same project;
+  - `REF` — a reference to another detail in the same document;
     `content` is `{ "detail_id": ... }` and the reference reads as its
     target. Placed like `TEXT`. The target must exist in every version the reference exists
     in: remove or retarget references before removing their target.
     Replacing a target carries its references to the replacement.
-  - `IMAGE` — an image uploaded into the project; `content` is
+  - `IMAGE` — an image uploaded into the document; `content` is
     `{ "asset_id": ..., "alt": ... }`. Reference an asset that already
-    exists: `list_project_assets` gives you the ids for a project and
-    `get_project_asset_url` returns a short-lived URL to look at one.
+    exists: `list_document_assets` gives you the ids for a document and
+    `get_document_asset_url` returns a short-lived URL to look at one.
     `alt` is required. Placed like `TEXT`. **You cannot upload image
     bytes over this connection** — if the user wants a new picture in
-    the project, they add it in the Goalpost webapp, and you can reference
+    the document, they add it in the Goalpost webapp, and you can reference
     it afterwards.
 - **Sections are the spine of the tree.** Every root detail must be a
   `SECTION`, and a `SECTION` may only sit under another `SECTION`.
   `TEXT` details live inside sections (and may nest under other `TEXT`
-  details). To add content to an empty project, add a root `SECTION`
+  details). To add content to an empty document, add a root `SECTION`
   first and put `TEXT` details under it. Moving a `TEXT` detail to the
   root, or a `SECTION` under a `TEXT` detail, is rejected.
 - **Operation** — a tree-edit primitive carried by a change batch. Four
@@ -68,10 +68,10 @@ as an argument.
 
 ## Typical workflow
 
-1. `list_projects` to discover what exists.
+1. `list_documents` to discover what exists.
 2. `view_change_batch` when the user asks to see, show, open, look at
-   or review a project, a draft or a pending change. It opens the
-   project beside the conversation (where the host renders it)
+   or review a document, a draft or a pending change. It opens the
+   document beside the conversation (where the host renders it)
    and returns its state, so you don't need a second read. Pass
    `changeBatchId` for a draft or pending change; without it the latest
    approved version opens. `get_latest_approved_change_batch` (or
@@ -85,8 +85,8 @@ as an argument.
 5. `submit_for_approval` to send the draft into the approval
    workflow.
 
-`list_teams` / `list_project_teams` read which teams exist and which
-can access a project. Any user can leave a team with
+`list_teams` / `list_document_teams` read which teams exist and which
+can access a document. Any user can leave a team with
 `remove_team_member`, passing their own `userId` from
 `get_current_workspace`.
 
@@ -96,23 +96,23 @@ When the connected user owns the workspace (`get_current_workspace`
 reports `role: "owner"`), the server also registers tools to manage
 teams and approval rules: `create_team`, `rename_team`, `delete_team`,
 `set_team_archived`, `set_team_approval_rule`, `add_team_member`,
-`assign_team_to_project`,
-`remove_team_from_project`, `create_approval_rule`,
+`assign_team_to_document`,
+`remove_team_from_document`, `create_approval_rule`,
 `update_approval_rule`, `set_approval_rule_archived`,
-`delete_approval_rule`, `set_project_approval_rule`, and the reads
-`get_team`, `list_team_projects`, `list_workspace_members`,
-`list_workspace_approval_rules`, `get_project_approval_rule`, and
-`list_approval_rule_projects`. Members don't get these tools; route
+`delete_approval_rule`, `set_document_approval_rule`, and the reads
+`get_team`, `list_team_documents`, `list_workspace_members`,
+`list_workspace_approval_rules`, `get_document_approval_rule`, and
+`list_approval_rule_documents`. Members don't get these tools; route
 them to a workspace owner.
 
-These change who can see projects and who must approve every future
+These change who can see documents and who must approve every future
 change, immediately, outside any draft. Confirm with the user before
 calling a mutating one. Resolve a person's `userId` with
 `list_workspace_members` before adding them to or removing them from a
 team.
 
-For images, `list_project_assets` and `get_project_asset_url` read a
-project's asset store. Uploading is webapp-only.
+For images, `list_document_assets` and `get_document_asset_url` read a
+document's asset store. Uploading is webapp-only.
 
 ## Minting and threading detail IDs
 
@@ -167,7 +167,7 @@ structure in the content:
   a new `order_key`) and nothing else needs to change.
 - **Strip numbers when transcribing.** If the user hands you a
   numbered document, drop the numbering as you turn it into details.
-  Don't add numbering of your own to a project. Goalpost has first-class
+  Don't add numbering of your own to a document. Goalpost has first-class
   handling for ordering content, and renumbering sections or other
   lists later is expensive.
 - **Numbers that mean something stay.** `Phase 2`, `Tier 3 support`,
@@ -203,16 +203,16 @@ story for reviewers.
 
 When the user asked to see something and you called
 `view_change_batch`, the opened view is the answer where the host
-renders it: summarize briefly and don't restate the project's contents
+renders it: summarize briefly and don't restate the document's contents
 in your reply.
 
 When a tool response includes a `webappUrl` field, **surface it to
 the user in your reply** — it's a clickable bridge to the
 Goalpost webapp where they can verify your work in the real UI.
-Tools that mutate or return a specific project or change batch carry
-this field (create/update/submit on change batches, create_project,
-assign_team_to_project, create_team, the approval rule create/update
-and project assignment, and the change batch reads). List operations
+Tools that mutate or return a specific document or change batch carry
+this field (create/update/submit on change batches, create_document,
+assign_team_to_document, create_team, the approval rule create/update
+and document assignment, and the change batch reads). List operations
 and tools that return nothing don't.
 
 ## What you cannot do via this connection
@@ -228,7 +228,7 @@ team and approval rule management for workspace owners. These are
 - Anything under workspace settings or billing.
 - Authentication or token management.
 - Uploading image bytes. You can reference and view assets that are
-  already in the project, but adding a new one happens in the webapp.
+  already in the document, but adding a new one happens in the webapp.
 
 If the user asks for one of these, explain that it has to happen in
 the webapp and (if relevant) include the `webappUrl` from the most
