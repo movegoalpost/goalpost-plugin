@@ -14,7 +14,7 @@ as an argument.
 
 - **Document** — a named, structured body of content (a product spec, a meal
   plan, a garden layout, a running set of notes) living inside the
-  workspace. Underneath, it is a tree of details whose nodes come in a
+  workspace. Underneath, it is a tree of items whose nodes come in a
   few types: `SECTION`, `TEXT`, `LINK`, `IMAGE`, and `REF`, described
   below.
 - **ChangeBatch** — a set of operations that edit a document's
@@ -26,9 +26,13 @@ as an argument.
     numbered, immutable).
   - Approved change batches form a linear chain; exactly one is "latest"
     for a document at a time.
-- **Detail** — a node in a document's hierarchical content tree,
-  identified by `detail_<uuid>`. Details have a
-  `parent_detail_id`, an `order_key` within their siblings, a `type`,
+- **Item** — a node in a document's hierarchical content tree: every
+  section, note, link, image, and reference in the document is an item,
+  identified by `item_<uuid>`. When you tell the user what you did,
+  name items by type where you can ("added a note under Requirements",
+  "moved the Budget section") and keep "item" for the general case.
+  Items have a
+  `parent_item_id`, an `order_key` within their siblings, a `type`,
   and `content` whose shape depends on the type:
   - `TEXT` — a note: a requirement, a decision, a statement, anything
     written down; `content` is `{ "text": ... }`.
@@ -36,8 +40,8 @@ as an argument.
     `{ "title": ... }`.
   - `LINK` — an http(s) link to something outside the document;
     `content` is `{ "url": ..., "label"?: ... }`. Placed like `TEXT`.
-  - `REF` — a reference to another detail in the same document;
-    `content` is `{ "detail_id": ... }` and the reference reads as its
+  - `REF` — a reference to another item in the same document;
+    `content` is `{ "item_id": ... }` and the reference reads as its
     target. Placed like `TEXT`. The target must exist in every version the reference exists
     in: remove or retarget references before removing their target.
     Replacing a target carries its references to the replacement.
@@ -49,19 +53,19 @@ as an argument.
     bytes over this connection** — if the user wants a new picture in
     the document, they add it in the Goalpost webapp, and you can reference
     it afterwards.
-- **Sections are the spine of the tree.** Every root detail must be a
+- **Sections are the spine of the tree.** Every root item must be a
   `SECTION`, and a `SECTION` may only sit under another `SECTION`.
-  `TEXT` details live inside sections (and may nest under other `TEXT`
-  details). To add content to an empty document, add a root `SECTION`
-  first and put `TEXT` details under it. Moving a `TEXT` detail to the
-  root, or a `SECTION` under a `TEXT` detail, is rejected.
+  `TEXT` items live inside sections (and may nest under other `TEXT`
+  items). To add content to an empty document, add a root `SECTION`
+  first and put `TEXT` items under it. Moving a `TEXT` item to the
+  root, or a `SECTION` under a `TEXT` item, is rejected.
 - **Operation** — a tree-edit primitive carried by a change batch. Four
   kinds, each with a specific job:
-  - `ADD_DETAIL` — introduce a new detail.
-  - `REMOVE_DETAIL` — delete a detail and all its descendants.
-  - `MOVE_DETAIL` — change a detail's `parent_detail_id` and/or
+  - `ADD_ITEM` — introduce a new item.
+  - `REMOVE_ITEM` — delete an item and all its descendants.
+  - `MOVE_ITEM` — change an item's `parent_item_id` and/or
     `position` in place. The id, content, and children are preserved.
-  - `REPLACE_DETAIL` — swap a detail for a new node with a new id.
+  - `REPLACE_ITEM` — swap an item for a new node with a new id.
     Scoped to content edits: type, parent, and position are inherited
     from the predecessor (the replacement must carry the same `type`),
     and the predecessor's children are re-parented to the replacement.
@@ -114,40 +118,40 @@ team.
 For images, `list_document_assets` and `get_document_asset_url` read a
 document's asset store. Uploading is webapp-only.
 
-## Minting and threading detail IDs
+## Minting and threading item IDs
 
-Detail IDs are **client-generated**. You — not the server — produce
+Item IDs are **client-generated**. You — not the server — produce
 them. The rules:
 
-- Mint a fresh `detail_<uuid>` whenever an operation introduces a
-  detail. That's `ADD_DETAIL.id` and `REPLACE_DETAIL.id`. The `<uuid>`
+- Mint a fresh `item_<uuid>` whenever an operation introduces an
+  item. That's `ADD_ITEM.id` and `REPLACE_ITEM.id`. The `<uuid>`
   is a freshly-generated v4 UUID; do not reuse an old one and do not
   invent a short or human-readable name.
-- `MOVE_DETAIL` reuses the existing detail's id — it relocates a node
+- `MOVE_ITEM` reuses the existing item's id — it relocates a node
   rather than minting a new one.
 - For any child you add in the same operations array, reuse the id
-  you just minted as that child's `parent_detail_id`. Don't fetch the
+  you just minted as that child's `parent_item_id`. Don't fetch the
   draft back to look it up.
-- For details inherited from the approved baseline, use the id
+- For items inherited from the approved baseline, use the id
   returned by `get_change_batch` or `get_latest_approved_change_batch`.
 
 ## Choosing the right operation type
 
 The choice between operation types matters because it changes what
-happens to a detail's identity and its descendants. Default toward
+happens to an item's identity and its descendants. Default toward
 the operation that preserves more of the existing tree:
 
-- **Editing a detail's content** — use `REPLACE_DETAIL`, not
+- **Editing an item's content** — use `REPLACE_ITEM`, not
   `REMOVE + ADD`. REPLACE re-parents the predecessor's children to
-  the replacement (descendants survive); REMOVE_DETAIL deletes them.
+  the replacement (descendants survive); REMOVE_ITEM deletes them.
   A REMOVE+ADD will silently destroy referenced state.
-- **Moving a detail to a new parent or position** — use
-  `MOVE_DETAIL`, not `REMOVE + ADD`. MOVE preserves the detail's id,
+- **Moving an item to a new parent or position** — use
+  `MOVE_ITEM`, not `REMOVE + ADD`. MOVE preserves the item's id,
   which is the right signal to anyone reading history that this is
   "the same thing, in a new place." REMOVE+ADD makes it look like the
-  old detail was deleted and an unrelated new one was created.
+  old item was deleted and an unrelated new one was created.
 - **Editing AND moving in the same change batch** — append both ops.
-  But remember: after `REPLACE_DETAIL`, the predecessor's id is gone.
+  But remember: after `REPLACE_ITEM`, the predecessor's id is gone.
   Any subsequent MOVE/REPLACE/REMOVE in the same op array must target
   the new id.
 
@@ -160,13 +164,13 @@ structure in the content:
 - **No section numbering in titles or text.** Write `Offerings`, not
   `3. Offerings`; `Storage Services`, not `3.1 Storage Services`; the
   same goes for `A)`, `(ii)`, `Step 4:` and similar prefixes. Baked-in
-  numbers go stale the moment a detail is inserted, moved, or removed,
-  and fixing them takes a `REPLACE_DETAIL` on every later sibling —
+  numbers go stale the moment an item is inserted, moved, or removed,
+  and fixing them takes a `REPLACE_ITEM` on every later sibling —
   a noisy diff reviewers have to wade through, and churned history
-  for content that didn't change. To reorder, `MOVE_DETAIL` (or pick
+  for content that didn't change. To reorder, `MOVE_ITEM` (or pick
   a new `order_key`) and nothing else needs to change.
 - **Strip numbers when transcribing.** If the user hands you a
-  numbered document, drop the numbering as you turn it into details.
+  numbered document, drop the numbering as you turn it into items.
   Don't add numbering of your own to a document. Goalpost has first-class
   handling for ordering content, and renumbering sections or other
   lists later is expensive.
@@ -174,12 +178,12 @@ structure in the content:
   or an external standard's clause id (`ISO 27001 A.5.1`) are content,
   not position — keep them.
 - **Cross-reference with `REF`, not by number.** Instead of "see
-  section 3.2", add a `REF` detail pointing at the target. It reads as
+  section 3.2", add a `REF` item pointing at the target. It reads as
   the target, survives reordering, and follows the target through a
-  `REPLACE_DETAIL`.
+  `REPLACE_ITEM`.
 - **Nest instead of formatting.** Don't encode hierarchy inside a
-  `TEXT` detail with bullets, dashes, or indentation; give each item
-  its own child detail. One requirement per detail keeps edits,
+  `TEXT` item with bullets, dashes, or indentation; give each item
+  its own child item. One requirement per item keeps edits,
   labels, and approval rules precise.
 
 ## Revising a draft in place
@@ -187,13 +191,13 @@ structure in the content:
 A draft is a mutable workspace, not an append-only log. When the user
 asks for changes to a draft you already wrote:
 
-- For a detail this draft introduced via `ADD_DETAIL` — **edit that
-  ADD_DETAIL operation in place** in the operations array. Don't
+- For an item this draft introduced via `ADD_ITEM` — **edit that
+  ADD_ITEM operation in place** in the operations array. Don't
   append a follow-up REPLACE or MOVE op on top of it. Use
   `update_change_batch` with the revised operations array.
-- For a detail inherited from the approved baseline — append a
-  `REPLACE_DETAIL` (for content) or `MOVE_DETAIL` (for
-  relocation), per the rules above. You can't edit baseline details
+- For an item inherited from the approved baseline — append a
+  `REPLACE_ITEM` (for content) or `MOVE_ITEM` (for
+  relocation), per the rules above. You can't edit baseline items
   in place; you have to record an operation against them.
 
 This keeps the change batch's operations list compact and tells a clean

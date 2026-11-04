@@ -1,6 +1,6 @@
 {
   "name": "goalpost",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Read documents, author draft change batches, and manage document team access in Goalpost — shared, versioned documents for people and agents, from inside ChatGPT.",
   "author": {
     "name": "On A Hill Co",

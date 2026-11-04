@@ -148,7 +148,7 @@ that only speaks stdio, see the "Other assistants" section of
   a native streamable-HTTP server from the one `.mcp.json`.
 - **Skill** — `skills/goalpost/SKILL.md`, loaded by Claude Code,
   Claude Desktop, and ChatGPT / Codex. Teaches the
-  workspace/document/change-batch/detail mental model, the detail-ID minting and operation-type conventions,
+  workspace/document/change-batch/item mental model, the item-ID minting and operation-type conventions,
   in-place draft revision, and the habit of surfacing `webappUrl`
   back to the user.
 - **Slash commands** — `/goalpost:draft`, `/goalpost:review`,

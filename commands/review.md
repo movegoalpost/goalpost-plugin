@@ -26,19 +26,19 @@ for reviewers, or someone else's pending one they're voting on.
 
 3. **Summarize per operation.** For each operation in the change batch,
    write one line in plain language:
-   - `ADD_DETAIL` — describe the new content and where it lands
+   - `ADD_ITEM` — describe the new content and where it lands
      (parent and position).
-   - `REMOVE_DETAIL` — name the detail and call out that all its
+   - `REMOVE_ITEM` — name the item and call out that all its
      descendants go with it.
-   - `MOVE_DETAIL` — name the detail and describe the move (from
+   - `MOVE_ITEM` — name the item and describe the move (from
      where, to where).
-   - `REPLACE_DETAIL` — describe the content change and call out
+   - `REPLACE_ITEM` — describe the content change and call out
      that the predecessor's children are re-parented to the
      replacement (descendants survive).
 
 4. **Call out anything that warrants extra attention.** Examples:
    bulk removals, replacements affecting many descendants, edits to
-   details referenced from elsewhere, or operations whose intent the
+   items referenced from elsewhere, or operations whose intent the
    conversation doesn't make clear. Surface these as a short
    "consider before approving" list.
 

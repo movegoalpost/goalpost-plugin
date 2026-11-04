@@ -16,18 +16,18 @@ change batch. Walk them through it without rushing to save:
 
 2. **Read the baseline.** Call `get_latest_approved_change_batch` for the
    chosen document. If it returns a change batch, that's your reference
-   for any existing details you'll edit or move. If it returns
-   `null`, this is the document's first change batch — every detail will
-   be an `ADD_DETAIL`.
+   for any existing items you'll edit or move. If it returns
+   `null`, this is the document's first change batch — every item will
+   be an `ADD_ITEM`.
 
 3. **Propose the operations array first, don't save it yet.** Before
    calling `create_change_batch`, write out the operations you intend to
    include in a numbered list in your reply. Group them logically
    (new sections, then edits, then moves, then removals). Use the
-   convention from the goalpost skill: `REPLACE_DETAIL` for content
-   edits to baseline details, `MOVE_DETAIL` for relocations,
-   `ADD_DETAIL` for new content, `REMOVE_DETAIL` only when the user
-   has explicitly asked for a deletion. Mint fresh `detail_<uuid>`
+   convention from the goalpost skill: `REPLACE_ITEM` for content
+   edits to baseline items, `MOVE_ITEM` for relocations,
+   `ADD_ITEM` for new content, `REMOVE_ITEM` only when the user
+   has explicitly asked for a deletion. Mint fresh `item_<uuid>`
    ids for ADD/REPLACE. Keep section numbering ("1.", "3.2") out of
    section titles and text — the tree and `order_key` carry the
    order (see the goalpost skill).
@@ -42,6 +42,6 @@ change batch. Walk them through it without rushing to save:
    the draft is editable via `update_change_batch` and gets sent for
    review via `submit_for_approval`.
 
-If at any point a tool returns a validation error (bad parent_detail_id,
+If at any point a tool returns a validation error (bad parent_item_id,
 duplicate id, etc.), explain what went wrong in plain language, fix
 the operations array, and try again.
