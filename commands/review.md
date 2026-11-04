@@ -10,9 +10,10 @@ draft they're about to submit, their own `pending_approval` waiting
 for reviewers, or someone else's pending one they're voting on.
 
 1. **Find and open the change batch.** If the user named a specific
-   one, call `view_change_batch` with its id: it opens the change
-   batch beside the conversation where the host renders it, and returns
-   the same data `get_change_batch` would. Otherwise call
+   one, call `view_change_batch` with its id and `changesOnly: true`:
+   it opens the change batch beside the conversation where the host
+   renders it, on the list of what it changed, and returns the same data
+   `get_change_batch` would. Otherwise call
    `list_change_batches` for the document (ask them which document if it
    isn't clear), offer the most recent `draft` or `pending_approval` as
    the candidate — or the one they ask for — and open that.

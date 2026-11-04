@@ -78,7 +78,9 @@ as an argument.
    document beside the conversation (where the host renders it)
    and returns its state, so you don't need a second read. Pass
    `changeBatchId` for a draft or pending change; without it the latest
-   approved version opens. `get_latest_approved_change_batch` (or
+   approved version opens. Pass `changesOnly: true` to open on the list
+   of what that version changed rather than the whole document — the
+   view for reviewing a draft or a pending change. `get_latest_approved_change_batch` (or
    `get_change_batch` for a specific one) reads the same state without
    showing it — use those when you need the state for your own work
    and the user hasn't asked to see it.
