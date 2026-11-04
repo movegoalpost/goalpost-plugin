@@ -32,7 +32,10 @@ as an argument.
   name items by type where you can ("added a note under Requirements",
   "moved the Budget section") and keep "item" for the general case.
   Items have a
-  `parent_item_id`, an `order_key` within their siblings, a `type`,
+  `parent_item_id`, an `order_key` within their siblings (a
+  fractional-indexing key: compute a new one with
+  `generateKeyBetween(prev, next)` from the `fractional-indexing`
+  package, never by hand — a key such as `a00` is rejected), a `type`,
   and `content` whose shape depends on the type:
   - `TEXT` — a note: a requirement, a decision, a statement, anything
     written down; `content` is `{ "text": ... }`.
