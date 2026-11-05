@@ -1,5 +1,5 @@
 ---
-description: Draft a new Goalpost change batch from the current conversation. Picks a document, reads its latest approved state, and proposes an operations array for review before saving.
+description: "Draft a new Goalpost change batch from the current conversation: pick the document, read its latest approved state, and propose the operations for the user's confirmation before saving. Use when the user asks to capture, write up, or record something from the conversation in a Goalpost document."
 ---
 
 # Goalpost — draft a change batch

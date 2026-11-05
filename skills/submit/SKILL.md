@@ -1,5 +1,5 @@
 ---
-description: Move a Goalpost draft change batch into the approval queue. Confirms the draft's contents and parent are current, then calls submit_for_approval.
+description: "Send a Goalpost draft change batch into the approval queue: confirm it is still a draft, check its parent is the latest approved version, summarize it, and get explicit confirmation before calling submit_for_approval. Use when the user asks to submit a draft or send it for review."
 ---
 
 # Goalpost — submit a draft for approval

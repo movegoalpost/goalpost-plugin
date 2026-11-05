@@ -1,5 +1,5 @@
 ---
-description: Review a Goalpost change batch — summarize its operations and their consequences before it goes (or while it sits) in the approval queue.
+description: "Review a Goalpost change batch: summarize each operation and its consequences, flag what needs a closer look, and check whether the draft is behind the latest approved version. Use when the user asks what a draft or pending change does, or wants help deciding whether to approve it."
 ---
 
 # Goalpost — review a change batch

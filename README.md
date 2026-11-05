@@ -48,9 +48,17 @@ MCP server**; both take the address
 The steps, with screenshots, are at
 [movegoalpost.com/docs/ai-integration](https://www.movegoalpost.com/docs/ai-integration).
 
-The plugin is for Claude Code and the Codex CLI, where it adds the
-Goalpost Skill (and, in Claude Code, slash commands) on top of the
-connection, and it is the bundle the assistant directories take.
+The plugin adds the Goalpost skills on top of the connection. It is
+what Claude Code and the Codex CLI install, and the bundle the
+assistant directories take, including OpenAI's plugin directory for
+ChatGPT.
+
+OpenAI's plugin format is named after Codex, its agent runtime, which
+runs both inside ChatGPT and as the `codex` CLI. That is why the
+OpenAI-side files and commands say `codex`
+(`.codex-plugin/plugin.json`, `codex plugin …`, `codex mcp login`)
+even though the plugin is the same one ChatGPT users install. Those
+names are fixed by OpenAI's tooling.
 
 ### Claude Code
 
@@ -83,9 +91,11 @@ Without the plugin, `claude mcp add goalpost --transport
 streamable-http https://api.movegoalpost.com/api/mcp` connects the
 server alone.
 
-### Codex CLI
+### ChatGPT and the Codex CLI
 
-Add the marketplace from a shell:
+Once the plugin is listed in OpenAI's plugin directory, ChatGPT users
+install it from there. Until then, and for testing, add the
+marketplace from a shell:
 
 ```bash
 codex plugin marketplace add movegoalpost/goalpost-plugin
@@ -101,12 +111,9 @@ codex mcp login goalpost
 ```
 
 The plugin bundles the same native streamable-HTTP server entry
-Claude Code uses, and the Goalpost Skill rides along. Slash commands
-(`/goalpost:draft`, `/goalpost:review`, `/goalpost:submit`) are
-Claude-Code-only — the Codex plugin spec doesn't yet cover slash
-commands.
+Claude Code uses, and the Goalpost skills ride along.
 
-To skip the plugin layer entirely and wire Codex up by hand, paste
+To skip the plugin layer entirely and wire the CLI up by hand, paste
 the snippet from [`codex/config.toml.example`](./codex/config.toml.example)
 into `~/.codex/config.toml` and run the same login command.
 
@@ -146,17 +153,21 @@ that only speaks stdio, see the "Other assistants" section of
   approval rule management for workspace owners.
   Claude Code, Claude Desktop, and ChatGPT / Codex all consume it as
   a native streamable-HTTP server from the one `.mcp.json`.
-- **Skill** — `skills/goalpost/SKILL.md`, loaded by Claude Code,
-  Claude Desktop, and ChatGPT / Codex. Teaches the
-  workspace/document/change-batch/item mental model, the item-ID minting and operation-type conventions,
-  in-place draft revision, and the habit of surfacing `webappUrl`
-  back to the user.
-- **Slash commands** — `/goalpost:draft`, `/goalpost:review`,
-  `/goalpost:submit`. Short, opinionated workflows that compose
-  multiple MCP tool calls into a single user intent.
-  **Claude-Code-only**: the Codex plugin spec doesn't yet cover slash
-  commands, so ChatGPT users get the MCP server + skill but invoke the
-  workflows by asking in natural language.
+- **Skills** — everything under `skills/`, loaded by Claude Code,
+  Claude Desktop, and ChatGPT / Codex. Only each skill's `description`
+  sits in the model's context until the skill is used.
+  - `goalpost` — the workspace/document/change-batch/item mental
+    model, the item-ID minting and operation-type conventions,
+    in-place draft revision, and the habit of surfacing `webappUrl`
+    back to the user.
+  - `draft`, `review`, `submit` — short workflows that compose several
+    MCP tool calls into one user intent, with the checkpoints that
+    intent needs: propose operations before saving a draft, flag a
+    stale parent and confirm before submitting, summarize each
+    operation's consequences when reviewing. The model picks one when
+    a request matches its description; in Claude Code the user can
+    also run it directly as `/goalpost:draft`, `/goalpost:review`, or
+    `/goalpost:submit`.
 
 ## Multiple workspaces
 

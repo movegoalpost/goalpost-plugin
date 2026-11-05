@@ -1,11 +1,13 @@
-# ChatGPT / Codex install paths
+# ChatGPT plugin install paths
 
-Codex is the agent runtime inside the ChatGPT desktop app and the
-`codex` CLI; both read the same plugin. This directory ships two ways
-to wire it up to Goalpost. The plugin path goes through the Codex
+This is the ChatGPT plugin. OpenAI's plugin format is named after
+Codex, the agent runtime inside ChatGPT and the `codex` CLI, so its
+manifest, marketplace file, and commands all say `codex`; the same
+plugin serves ChatGPT and the CLI. This directory ships two ways to
+wire it up to Goalpost. The plugin path goes through a plugin
 marketplace and is what most users should use. The manual
-`config.toml` path is for users who don't want to install a plugin or
-are testing without one.
+`config.toml` path is for CLI users who don't want to install a plugin
+or are testing without one.
 
 ## Plugin path (recommended)
 
@@ -17,21 +19,21 @@ codex plugin marketplace add movegoalpost/goalpost-plugin
 
 Then run `/plugins` in the Codex CLI and install **Goalpost**. (The
 ChatGPT desktop app can add the same marketplace from
-**Settings → Plugins → Add → Add a marketplace**, but its users are
-better served by a custom MCP server; see the plugin README.) The
+**Settings → Plugins → Add → Add a marketplace**. Until the plugin
+is listed in OpenAI's plugin directory, most ChatGPT users are better
+served by a custom MCP server; see the plugin README.) The
 plugin bundles:
 
 - The MCP server, the same native streamable-HTTP entry Claude Code
   uses (`../.mcp.json`, pointing at
   `https://api.movegoalpost.com/api/mcp`). Codex speaks to it
   directly; no local process sits in between.
-- The Goalpost Skill at `../skills/goalpost/SKILL.md`, loaded into
-  every Codex session that has the plugin enabled.
-
-Slash commands aren't part of the Codex plugin spec yet, so ChatGPT
-users get the MCP server + skill but invoke the workflows by asking
-in natural language ("draft a change batch for…", "review my pending
-change batch", "submit the draft").
+- The Goalpost skills under `../skills/`, loaded into every Codex
+  session that has the plugin enabled: `goalpost` (the mental model
+  and conventions) and the `draft`, `review`, and `submit`
+  workflows, which the model picks up when a request matches ("draft
+  a change batch for…", "review my pending change batch", "submit the
+  draft").
 
 ## What the Plugins tab shows
 
@@ -77,7 +79,7 @@ installation in. Codex's own tracking of sign-in-on-first-call is
 Skip the plugin and add the snippet from
 [`config.toml.example`](./config.toml.example) to
 `~/.codex/config.toml`, then run `codex mcp login goalpost`. You get
-the MCP server but not the Skill.
+the MCP server but not the skills.
 
 ## Other open questions
 
@@ -86,8 +88,3 @@ the MCP server but not the Skill.
   API-token auth; whether it also drives an MCP server's OAuth at
   install time is to be confirmed by hand. The CLI login covers the
   gap either way.
-- **Will Codex's plugin spec grow slash commands?** Codex's
-  documented manifest fields cover skills, hooks, apps, and MCP
-  servers but not slash commands. If they're added, the existing
-  `../commands/` files can be wired into `.codex-plugin/plugin.json`
-  alongside the skill.
