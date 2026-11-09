@@ -1,6 +1,6 @@
 {
   "name": "goalpost",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Read documents, author draft change batches, and manage document team access in Goalpost — shared, versioned documents for people and agents, from inside ChatGPT.",
   "author": {
     "name": "On A Hill LLC",
@@ -51,45 +51,45 @@
               "description": "List the workspace's documents",
               "prompt": "What documents are in my Goalpost workspace?",
               "tools_triggered": "list_documents",
-              "expected_behavior": "Names each document in the demo workspace with its description, and nothing from any other workspace."
+              "expected_behavior": "Names each document in the demo workspace, Consumer Mobile App among them, with its description, and nothing from any other workspace."
             },
             {
               "description": "Open a document's latest approved version",
-              "prompt": "Open the Kitchen renovation document.",
+              "prompt": "Open the Consumer Mobile App document.",
               "tools_triggered": "list_documents, view_change_batch",
-              "expected_behavior": "Finds the document by name, opens its latest approved version beside the conversation, and summarizes its sections from the returned state without a second read."
+              "expected_behavior": "Finds the document by name, opens its latest approved version beside the conversation, and summarizes its sections (v1 Overview, Accounts, Home Feed, Search, Library, Billing, Privacy) from the returned state without a second read."
             },
             {
               "description": "Draft an addition without submitting it",
-              "prompt": "Start a draft on the Kitchen renovation document that adds a section called Open questions with two notes: whether to keep the island, and the budget for appliances.",
+              "prompt": "Start a draft on the Consumer Mobile App document that adds a section called Open questions with two notes: whether search covers collection names, and whether the home feed shows items from shared collections.",
               "tools_triggered": "list_documents, create_change_batch (the section and its notes may be sent with it, or added after through add_item_to_change_batch or append_change_batch_operations)",
-              "expected_behavior": "Creates one draft change batch over the latest approved version holding a new root section titled Open questions with two text items under it, in that order, reports the draft with a link, and does not submit it for approval."
+              "expected_behavior": "Creates one draft change batch over the latest approved version holding a new root section titled Open questions with the two notes under it, in that order, reports the draft with a link, and does not submit it for approval."
             },
             {
-              "description": "Explain a pending change",
-              "prompt": "What does the pending change on the Kitchen renovation document do?",
+              "description": "Explain a draft",
+              "prompt": "What does the passkeys draft on the Consumer Mobile App document propose?",
               "tools_triggered": "list_documents, list_change_batches, get_change_batch",
-              "expected_behavior": "Finds the change batch awaiting approval and describes each of its operations in plain language, naming the sections and notes it adds, removes, moves, or replaces."
+              "expected_behavior": "Finds the draft titled Offer passkeys after authentication and describes its operations in plain language: it adds an Accounts requirement to offer passkeys once a user is signed in by another method."
             },
             {
               "description": "Show which teams can access a document",
-              "prompt": "Which teams have access to the Kitchen renovation document?",
+              "prompt": "Which teams have access to the Consumer Mobile App document?",
               "tools_triggered": "list_documents, list_document_teams",
-              "expected_behavior": "Lists the teams assigned to the document, and only those."
+              "expected_behavior": "Lists the teams assigned to the document (Compliance, Design and Product in the demo workspace), and only those."
             }
           ],
           "negative": [
             {
               "description": "Approving is not available through the plugin",
-              "prompt": "Approve the pending change on the Kitchen renovation document."
+              "prompt": "Approve the passkeys draft on the Consumer Mobile App document."
             },
             {
               "description": "Documents cannot be deleted through the plugin",
-              "prompt": "Delete the Kitchen renovation document."
+              "prompt": "Delete the Consumer Mobile App document."
             },
             {
               "description": "Image upload is not available through the plugin",
-              "prompt": "Upload this photo of the kitchen into the Kitchen renovation document."
+              "prompt": "Upload this screenshot of the sign-in screen into the Consumer Mobile App document."
             }
           ]
         },
