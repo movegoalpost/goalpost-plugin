@@ -1,4 +1,5 @@
 ---
+name: goalpost
 description: Use Goalpost — shared, versioned documents for people and agents — well when reading documents or authoring/revising change batches through the `goalpost` MCP server.
 ---
 
@@ -32,11 +33,9 @@ as an argument.
   name items by type where you can ("added a note under Requirements",
   "moved the Budget section") and keep "item" for the general case.
   Items have a
-  `parent_item_id`, an `order_key` within their siblings (a
-  fractional-indexing key: compute a new one with
-  `generateKeyBetween(prev, next)` from the `fractional-indexing`
-  package, never by hand — a key such as `a00` is rejected), a `type`,
-  and `content` whose shape depends on the type:
+  `parent_item_id`, an `order_key` within their siblings (read-only:
+  the server mints it when an item is placed; never write one), a
+  `type`, and `content` whose shape depends on the type:
   - `TEXT` — a note: a requirement, a decision, a statement, anything
     written down; `content` is `{ "text": ... }`.
   - `SECTION` — a named grouping, like a folder; `content` is
@@ -64,12 +63,15 @@ as an argument.
   root, or a `SECTION` under a `TEXT` item, is rejected.
 - **Operation** — a tree-edit primitive carried by a change batch. Four
   kinds, each with a specific job:
-  - `ADD_ITEM` — introduce a new item.
+  - `ADD_ITEM` — introduce a new item, placed by `parent_item_id`
+    (null for the root) and, when it is not simply last under that
+    parent, by `after_item_id` or `before_item_id` naming the sibling
+    it goes next to.
   - `REMOVE_ITEM` — delete an item and all its descendants.
-  - `MOVE_ITEM` — change an item's `parent_item_id` and/or
-    `position` in place. The id, content, and children are preserved.
+  - `MOVE_ITEM` — change an item's parent and place, named the same
+    way. The id, content, and children are preserved.
   - `REPLACE_ITEM` — swap an item for a new node with a new id.
-    Scoped to content edits: type, parent, and position are inherited
+    Scoped to content edits: type, parent, and place are inherited
     from the predecessor (the replacement must carry the same `type`),
     and the predecessor's children are re-parented to the replacement.
 
@@ -89,8 +91,13 @@ as an argument.
    and the user hasn't asked to see it.
 3. `create_change_batch` to start a draft. The server defaults
    `parentId` to the latest approved change batch; pass it explicitly
-   only when branching from an older one.
-4. `update_change_batch` to iterate on the draft's operations.
+   only when branching from an older one. To write a whole tree, list
+   the items in the order they should appear, each after its parent,
+   and name no sibling: each lands last under its parent as it goes.
+4. `append_change_batch_operations` to add to the draft (a subtree, a
+   few edits) without resending what it has; the single-item tools
+   (`add_item_to_change_batch` and friends) for one change at a time;
+   `update_change_batch` to replace the draft's whole operation set.
 5. `submit_for_approval` to send the draft into the approval
    workflow.
 
@@ -162,9 +169,9 @@ the operation that preserves more of the existing tree:
 
 ## Let the tree carry the structure
 
-The tree *is* the document. Sibling order comes from `order_key`, and
-the webapp renders nesting and order on its own. Don't duplicate that
-structure in the content:
+The tree *is* the document. Sibling order comes from where operations
+place items, and the webapp renders nesting and order on its own. Don't
+duplicate that structure in the content:
 
 - **No section numbering in titles or text.** Write `Offerings`, not
   `3. Offerings`; `Storage Services`, not `3.1 Storage Services`; the
@@ -172,8 +179,8 @@ structure in the content:
   numbers go stale the moment an item is inserted, moved, or removed,
   and fixing them takes a `REPLACE_ITEM` on every later sibling —
   a noisy diff reviewers have to wade through, and churned history
-  for content that didn't change. To reorder, `MOVE_ITEM` (or pick
-  a new `order_key`) and nothing else needs to change.
+  for content that didn't change. To reorder, `MOVE_ITEM` and
+  nothing else needs to change.
 - **Strip numbers when transcribing.** If the user hands you a
   numbered document, drop the numbering as you turn it into items.
   Don't add numbering of your own to a document. Goalpost has first-class

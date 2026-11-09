@@ -1,4 +1,5 @@
 ---
+name: submit
 description: "Send a Goalpost draft change batch into the approval queue: confirm it is still a draft, check its parent is the latest approved version, summarize it, and get explicit confirmation before calling submit_for_approval. Use when the user asks to submit a draft or send it for review."
 ---
 
@@ -23,9 +24,11 @@ in the shape they actually want first.
    on the draft), the baseline has moved since the draft was written:
    - Explain that submitting now will queue the draft against a stale
      baseline.
-   - Offer to reconcile the draft by reading the new baseline and
-     editing the draft's operations array via `update_change_batch`
-     before submitting — don't do this silently.
+   - Call `preview_change_batch_parent_update` and tell the user what
+     updating the parent would keep and drop, and which copied items it
+     offers to merge with their approved counterparts.
+   - Offer to run `update_change_batch_parent` (with the merges the user
+     chooses) before submitting — don't do this silently.
    - Wait for the user's call before continuing.
 
 4. **Give the user a one-line summary of what they're about to

@@ -6,8 +6,9 @@
 #
 #   codex mcp login goalpost
 #
-# Codex registers itself with Goalpost's OAuth server and opens the
-# consent screen in your browser; pick the workspace to bind.
+# Codex identifies itself to Goalpost's OAuth server with the client
+# metadata document it publishes and opens the consent screen in your
+# browser; pick the workspace to bind.
 
 [mcp_servers.goalpost]
 url = "https://api.movegoalpost.com/api/mcp"

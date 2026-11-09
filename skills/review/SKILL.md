@@ -1,4 +1,5 @@
 ---
+name: review
 description: "Review a Goalpost change batch: summarize each operation and its consequences, flag what needs a closer look, and check whether the draft is behind the latest approved version. Use when the user asks what a draft or pending change does, or wants help deciding whether to approve it."
 ---
 
@@ -22,7 +23,9 @@ for reviewers, or someone else's pending one they're voting on.
    carries a `needsRebase` field — if it's true, the
    approved baseline has moved since the draft was written and
    reconciling should happen before approval. Trust the field rather
-   than re-deriving it. To inspect the new baseline, call
+   than re-deriving it. `preview_change_batch_parent_update` shows what
+   updating the parent would keep and drop; to inspect the new baseline
+   itself, call
    `get_latest_approved_change_batch` for the document.
 
 3. **Summarize per operation.** For each operation in the change batch,

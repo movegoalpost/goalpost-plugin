@@ -66,8 +66,9 @@ than on the first tool call. In the CLI:
 codex mcp login goalpost
 ```
 
-Codex registers itself with Goalpost's OAuth server and opens the
-consent screen in your browser; pick the workspace to bind. The
+Codex identifies itself to Goalpost's OAuth server with the client
+metadata document it publishes and opens the consent screen in your
+browser; pick the workspace to bind. The
 marketplace entry sets `policy.authentication: ON_INSTALL`, which asks
 the ChatGPT desktop app to prompt for that sign-in when the plugin is
 installed; if it does not, the CLI command above signs the same

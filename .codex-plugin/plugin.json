@@ -1,9 +1,9 @@
 {
   "name": "goalpost",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Read documents, author draft change batches, and manage document team access in Goalpost — shared, versioned documents for people and agents, from inside ChatGPT.",
   "author": {
-    "name": "On A Hill Co",
+    "name": "On A Hill LLC",
     "email": "info@onahill.co",
     "url": "https://www.movegoalpost.com"
   },
@@ -15,17 +15,90 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Goalpost",
-    "shortDescription": "Shared, versioned documents for people and agents, inside your AI assistant.",
-    "longDescription": "Connect Goalpost — shared, versioned documents for people and agents — to ChatGPT. The assistant can list documents, read the latest approved version of a document, draft and revise change batches, submit drafts for approval, manage labels, and, for workspace owners, manage teams, their members and document access, and approval rules. Approval votes, workspace membership, settings, and billing stay in the Goalpost webapp.",
-    "developerName": "On A Hill Co",
+    "shortDescription": "Notes for people and agents",
+    "longDescription": "Goalpost is a space for people and agents to share notes, context, reference materials, requirements, and decisions. Each document is a structured list of lists, with sections and labels to keep things organized. Updates to a document are drafted as batches of changes, reviewed and approved before they land, so everyone works independently against one source of truth. Approval rules set who has to sign off, per document or per team.\n\nWith this plugin, ChatGPT and Codex can list your documents, read the latest approved version, open a document beside the conversation, draft and revise batches of changes, submit drafts for approval, and manage labels. Workspace owners can also manage teams, their members and document access, and approval rules. Approval votes, workspace membership, settings, and billing stay in the Goalpost web app. You need a Goalpost account to connect.",
+    "developerName": "On A Hill LLC",
     "category": "Productivity",
-    "capabilities": ["Read", "Write"],
+    "capabilities": [
+      "List and read documents",
+      "Open a document beside the conversation",
+      "Draft and revise batches of changes",
+      "Submit drafts for approval",
+      "Manage labels",
+      "Manage teams, document access, and approval rules (workspace owners)"
+    ],
+    "defaultPrompt": [
+      "What documents are in my Goalpost workspace?",
+      "Open the latest approved version of one of my Goalpost documents.",
+      "Start a Goalpost draft that adds a section to one of my documents."
+    ],
     "logo": "./assets/logo.png",
     "composerIcon": "./assets/composer-icon.svg",
     "brandColor": "#0055A3",
     "brandColorDark": "#4DACF6",
     "websiteURL": "https://www.movegoalpost.com",
+    "supportURL": "https://www.movegoalpost.com/support",
     "privacyPolicyURL": "https://www.movegoalpost.com/privacy",
     "termsOfServiceURL": "https://www.movegoalpost.com/terms"
+  },
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/goalpost/SKILL.md",
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "List the workspace's documents",
+              "prompt": "What documents are in my Goalpost workspace?",
+              "tools_triggered": "list_documents",
+              "expected_behavior": "Names each document in the demo workspace with its description, and nothing from any other workspace."
+            },
+            {
+              "description": "Open a document's latest approved version",
+              "prompt": "Open the Kitchen renovation document.",
+              "tools_triggered": "list_documents, view_change_batch",
+              "expected_behavior": "Finds the document by name, opens its latest approved version beside the conversation, and summarizes its sections from the returned state without a second read."
+            },
+            {
+              "description": "Draft an addition without submitting it",
+              "prompt": "Start a draft on the Kitchen renovation document that adds a section called Open questions with two notes: whether to keep the island, and the budget for appliances.",
+              "tools_triggered": "list_documents, create_change_batch (the section and its notes may be sent with it, or added after through add_item_to_change_batch or append_change_batch_operations)",
+              "expected_behavior": "Creates one draft change batch over the latest approved version holding a new root section titled Open questions with two text items under it, in that order, reports the draft with a link, and does not submit it for approval."
+            },
+            {
+              "description": "Explain a pending change",
+              "prompt": "What does the pending change on the Kitchen renovation document do?",
+              "tools_triggered": "list_documents, list_change_batches, get_change_batch",
+              "expected_behavior": "Finds the change batch awaiting approval and describes each of its operations in plain language, naming the sections and notes it adds, removes, moves, or replaces."
+            },
+            {
+              "description": "Show which teams can access a document",
+              "prompt": "Which teams have access to the Kitchen renovation document?",
+              "tools_triggered": "list_documents, list_document_teams",
+              "expected_behavior": "Lists the teams assigned to the document, and only those."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Approving is not available through the plugin",
+              "prompt": "Approve the pending change on the Kitchen renovation document."
+            },
+            {
+              "description": "Documents cannot be deleted through the plugin",
+              "prompt": "Delete the Kitchen renovation document."
+            },
+            {
+              "description": "Image upload is not available through the plugin",
+              "prompt": "Upload this photo of the kitchen into the Kitchen renovation document."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "This plugin does not sell products or process payments."
+      },
+      "publication": {
+        "release_notes": "First directory release: the Goalpost MCP server with the Goalpost, draft, review, and submit skills."
+      }
+    }
   }
 }

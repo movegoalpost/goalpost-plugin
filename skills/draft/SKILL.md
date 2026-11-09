@@ -1,4 +1,5 @@
 ---
+name: draft
 description: "Draft a new Goalpost change batch from the current conversation: pick the document, read its latest approved state, and propose the operations for the user's confirmation before saving. Use when the user asks to capture, write up, or record something from the conversation in a Goalpost document."
 ---
 
@@ -28,9 +29,12 @@ change batch. Walk them through it without rushing to save:
    edits to baseline items, `MOVE_ITEM` for relocations,
    `ADD_ITEM` for new content, `REMOVE_ITEM` only when the user
    has explicitly asked for a deletion. Mint fresh `item_<uuid>`
-   ids for ADD/REPLACE. Keep section numbering ("1.", "3.2") out of
-   section titles and text — the tree and `order_key` carry the
-   order (see the goalpost skill).
+   ids for ADD/REPLACE. List new items in the order they should
+   appear, each after its parent; each goes last under its parent
+   unless you name a sibling with `after_item_id` or `before_item_id`.
+   Never write an `order_key`: the server mints them. Keep section
+   numbering ("1.", "3.2") out of section titles and text — the tree
+   carries the order (see the goalpost skill).
 
 4. **Ask the user to confirm or revise.** Wait for their go-ahead on
    the operations list before saving. If they want changes, revise
@@ -39,8 +43,9 @@ change batch. Walk them through it without rushing to save:
 5. **Save the draft.** Call `create_change_batch` with the agreed
    operations array. Surface the returned `webappUrl` so the user
    can review the rendered document in the webapp. Mention that
-   the draft is editable via `update_change_batch` and gets sent for
-   review via `submit_for_approval`.
+   the draft can be extended with `append_change_batch_operations`,
+   rewritten with `update_change_batch`, and sent for review via
+   `submit_for_approval`.
 
 If at any point a tool returns a validation error (bad parent_item_id,
 duplicate id, etc.), explain what went wrong in plain language, fix
