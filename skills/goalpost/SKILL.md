@@ -57,10 +57,11 @@ as an argument.
     it afterwards.
 - **Sections are the spine of the tree.** Every root item must be a
   `SECTION`, and a `SECTION` may only sit under another `SECTION`.
-  `TEXT` items live inside sections (and may nest under other `TEXT`
-  items). To add content to an empty document, add a root `SECTION`
-  first and put `TEXT` items under it. Moving a `TEXT` item to the
-  root, or a `SECTION` under a `TEXT` item, is rejected.
+  Every other item sits under a section or under any other item, so a
+  `TEXT` item can carry `TEXT`, `LINK` and `REF` items of its own. To add
+  content to an empty document, add a root `SECTION` first and put
+  `TEXT` items under it. Moving a `TEXT` item to the root, or a
+  `SECTION` under a `TEXT` item, is rejected.
 - **Operation** — a tree-edit primitive carried by a change batch. Four
   kinds, each with a specific job:
   - `ADD_ITEM` — introduce a new item, placed by `parent_item_id`
@@ -193,10 +194,17 @@ duplicate that structure in the content:
   section 3.2", add a `REF` item pointing at the target. It reads as
   the target, survives reordering, and follows the target through a
   `REPLACE_ITEM`.
-- **Nest instead of formatting.** Don't encode hierarchy inside a
-  `TEXT` item with bullets, dashes, or indentation; give each item
-  its own child item. One requirement per item keeps edits,
-  labels, and approval rules precise.
+- **Prefer one point per item, with its detail beneath it.** A
+  paragraph in one `TEXT` item is allowed, but don't default to it.
+  Where text makes several points, give each its own item, and put what
+  elaborates a point (the reason, an exception, an example, a
+  definition, its source) in child items under it rather than in more
+  sentences of the same text. A list reads best as one item per entry
+  rather than bullets or dashes inside one text. Small items can each be
+  edited, labeled, referenced, approved, and compared on their own,
+  while a change to one sentence of a long paragraph replaces the whole
+  paragraph and makes reviewers read all of it again. A paragraph suits
+  prose that makes one point, such as a short overview or a quotation.
 
 ## Revising a draft in place
 

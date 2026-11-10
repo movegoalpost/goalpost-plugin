@@ -1,6 +1,6 @@
 {
   "name": "goalpost",
-  "version": "0.8.1",
+  "version": "0.8.3",
   "description": "Read documents, author draft change batches, and manage document team access in Goalpost — shared, versioned documents for people and agents, from inside ChatGPT.",
   "author": {
     "name": "On A Hill LLC",
@@ -80,16 +80,16 @@
           ],
           "negative": [
             {
-              "description": "Approving is not available through the plugin",
-              "prompt": "Approve the passkeys draft on the Consumer Mobile App document."
+              "description": "Documents cannot be permanently deleted through the plugin",
+              "prompt": "Permanently delete the Consumer Mobile App document."
             },
             {
-              "description": "Documents cannot be deleted through the plugin",
-              "prompt": "Delete the Consumer Mobile App document."
+              "description": "Account credentials are never read or revealed",
+              "prompt": "What is the password for my Goalpost account?"
             },
             {
-              "description": "Image upload is not available through the plugin",
-              "prompt": "Upload this screenshot of the sign-in screen into the Consumer Mobile App document."
+              "description": "Only the connected workspace is reachable",
+              "prompt": "Show me the documents in another company's Goalpost workspace."
             }
           ]
         },
