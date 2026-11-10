@@ -1,6 +1,6 @@
 {
   "name": "goalpost",
-  "version": "0.8.6",
+  "version": "0.8.8",
   "description": "Read documents, author draft change batches, and manage document team access in Goalpost — shared, versioned documents for people and agents, from inside ChatGPT.",
   "author": {
     "name": "On A Hill LLC",
@@ -16,7 +16,7 @@
   "interface": {
     "displayName": "Goalpost",
     "shortDescription": "Docs for people and agents",
-    "longDescription": "Goalpost is a space for people and agents to share notes, context, reference materials, requirements, and decisions. Each document is a structured list of lists, with sections and labels to keep things organized. Keep several drafts of a document going at once, so you can explore different approaches before converging on one. The document changes only when a draft is approved. Optionally, use approval rules to control who has to sign off, scoped to documents, sections of documents, and teams.\n\nSay a document holds the facts about your home and you’re planning a redecoration. Each person in the house drafts their own changes. Ideas can be copied between drafts, a big draft split into smaller ones, and small ones merged into a larger scope, all without touching the source of truth. Once there’s consensus on one, approving it updates the document.\n\nWith this plugin, ChatGPT and Codex can list your documents, read the latest approved version, open a document beside the conversation, draft and revise batches of changes, submit drafts for approval, and manage labels. Workspace owners can also manage teams, their members and document access, and approval rules. Approval votes, workspace membership, settings, and billing stay in the Goalpost web app. You need a Goalpost account to connect.",
+    "longDescription": "Goalpost is a space for people and agents to share notes, context, reference materials, requirements, and decisions. Each document is a structured list of lists, with sections and labels to keep things organized. Keep several drafts of a document going at once, so you can explore different approaches before converging on one. The document changes only when a draft is approved. Optionally, use approval rules to control who has to sign off, scoped to documents, sections of documents, and teams.\n\nImagine a document holds the facts about your home and you’re planning a redecoration. Each person in the house drafts their own changes. Ideas can be copied between drafts, a big draft split into smaller ones, and small ones merged into a larger scope, all without touching the source of truth. Once there’s consensus on one, approving it updates the document.\n\nWith this plugin, ChatGPT and Codex can list your documents, read the latest approved version, open a document beside the conversation, draft and revise batches of changes, submit drafts for approval, and manage labels. Workspace owners can also manage teams, their members and document access, and approval rules. Approval votes, workspace membership, settings, and billing stay in the Goalpost web app. You need a Goalpost account to connect.",
     "developerName": "On A Hill LLC",
     "category": "Productivity",
     "capabilities": [

@@ -98,7 +98,8 @@ as an argument.
 4. `append_change_batch_operations` to add to the draft (a subtree, a
    few edits) without resending what it has; the single-item tools
    (`add_item_to_change_batch` and friends) for one change at a time;
-   `update_change_batch` to replace the draft's whole operation set.
+   `remove_change_batch_operation` to take back one change the draft
+   made to an item from the approved version.
 5. `submit_for_approval` to send the draft into the approval
    workflow.
 
@@ -208,17 +209,21 @@ duplicate that structure in the content:
 
 ## Revising a draft in place
 
-A draft is a mutable workspace, not an append-only log. When the user
-asks for changes to a draft you already wrote:
+A draft holds the net effect of its edits, not a log of them, and the
+server keeps it that way. When the user asks for changes to a draft you
+already wrote, make each change with the item tools
+(`edit_item_in_change_batch`, `move_item_in_change_batch`,
+`remove_item_from_change_batch`) or `append_change_batch_operations`:
 
-- For an item this draft introduced via `ADD_ITEM` — **edit that
-  ADD_ITEM operation in place** in the operations array. Don't
-  append a follow-up REPLACE or MOVE op on top of it. Use
-  `update_change_batch` with the revised operations array.
-- For an item inherited from the approved baseline — append a
-  `REPLACE_ITEM` (for content) or `MOVE_ITEM` (for
-  relocation), per the rules above. You can't edit baseline items
-  in place; you have to record an operation against them.
+- An edit, move or removal of an item this draft added is folded into
+  its ADD_ITEM, so the draft still shows one addition.
+- An edit or move of an item from the approved version is recorded
+  against it, replacing any earlier edit of the same item.
+- To take back a change to an item from the approved version (keep an
+  item the draft removed, restore its wording or its place), read the
+  draft with `get_change_batch` and call `remove_change_batch_operation`
+  with that change's operation `id` and the read's
+  `current_checkpoint_id`. The draft's other changes stay.
 
 This keeps the change batch's operations list compact and tells a clean
 story for reviewers.

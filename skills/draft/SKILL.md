@@ -44,8 +44,8 @@ change batch. Walk them through it without rushing to save:
    operations array. Surface the returned `webappUrl` so the user
    can review the rendered document in the webapp. Mention that
    the draft can be extended with `append_change_batch_operations`,
-   rewritten with `update_change_batch`, and sent for review via
-   `submit_for_approval`.
+   revised one item at a time with the item tools, and sent for review
+   via `submit_for_approval`.
 
 If at any point a tool returns a validation error (bad parent_item_id,
 duplicate id, etc.), explain what went wrong in plain language, fix
