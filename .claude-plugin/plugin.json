@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "goalpost",
   "displayName": "Goalpost",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "description": "Read documents, author draft change batches, and manage document team access in Goalpost — shared, versioned documents for people and agents, from inside your AI assistant.",
   "homepage": "https://www.movegoalpost.com/docs/ai-integration",
   "repository": "https://github.com/movegoalpost/goalpost-plugin",

@@ -1,6 +1,6 @@
 {
   "name": "goalpost",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "description": "Read documents, author draft change batches, and manage document team access in Goalpost — shared, versioned documents for people and agents, from inside ChatGPT.",
   "author": {
     "name": "On A Hill LLC",
@@ -93,6 +93,7 @@
             }
           ]
         },
+        "demo_recording_url": "https://media.movegoalpost.com/assets/ChatGPT_MCP_Demo_Recording_2026-11-09_at-12.59.43_PM-85310264.mov",
         "commerce": false,
         "commerce_description": "This plugin does not sell products or process payments."
       },
